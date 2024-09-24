@@ -131,7 +131,6 @@
                 background-color: #766ac8;
             }
 
-            /* Стили для скроллбара в WebKit (Chrome, Safari) */
             ::-webkit-scrollbar {
                 width: 6px;
             }
@@ -192,7 +191,7 @@
             const messageContainer = document.querySelector('.message-container');
 
             const scrollButton = document.getElementById('scroll-to-bottom');
-            // Показать кнопку только если мы не внизу страницы
+            // Показать кнопку только, если мы не внизу страницы
             messageContainer.addEventListener('scroll', function() {
                 if (messageContainer.scrollHeight - messageContainer.scrollTop > messageContainer.clientHeight + 100) {
                     scrollButton.style.display = 'block';
@@ -204,7 +203,6 @@
             scrollButton.addEventListener('click', function() {
                 messageContainer.scrollTop = messageContainer.scrollHeight;
             });
-
 
             window.onload = function() {
                 let messages = [];
@@ -223,8 +221,6 @@
             }
 
             form.addEventListener('submit', handleSubmit);
-            //form.addEventListener('submit', this.handleSubmit.bind(this));
-            //form.addEventListener('keypress', this.handleKeyPress.bind(this));
 
             function handleSubmit (event) {
                 if (input.value === "") {
@@ -267,12 +263,6 @@
 
                 messageContainer.scrollTop = messageContainer.scrollHeight;
             }
-
-            /*function handleKeyPress (event) {
-                if (event.keyCode === 13) {
-                    form.dispatchEvent(new Event('submit'));
-                }
-            }*/
         </script>
     </body>
 </html>
