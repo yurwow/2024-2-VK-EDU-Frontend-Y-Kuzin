@@ -13,15 +13,15 @@
  */
 
 export default function convertBytesToHuman(bytes) {
-  if (typeof bytes === 'number' && bytes >= 0) {
-      if (bytes < 1024) return `${bytes} B`
-      else if (bytes >= 1048576) {
-          let megabyte = ((bytes / 1024) / 1024).toFixed(2);
-          return `${+megabyte} MB`
-      } else {
-          let kilobyte = (bytes / 1024).toFixed(2);
-          return `${+kilobyte} KB`
-      }
-  }
-  else return false
+    const array = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
+    let index = 0;
+    if (typeof bytes === 'number' && bytes >= 0 && bytes !== Infinity) {
+        const oneKilobyte = 1024;
+        for (let i = 0; bytes >= oneKilobyte; i++) {
+            bytes /= oneKilobyte;
+            index++;
+        }
+        return `${+bytes.toFixed(2)} ${array[index]}`;
+    }
+    else return false;
 }
