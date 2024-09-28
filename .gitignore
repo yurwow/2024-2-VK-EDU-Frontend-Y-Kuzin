@@ -1,3 +1,4 @@
 node_modules/
 .idea/
-
+simple-chat/src/icons
+simple-chat/build
