@@ -53,6 +53,8 @@
 
 .last-message {
     max-width: 200px;
+    width: 200px;
+    color: #aaaaaa;
 }
 
 .sidebar-message-time-container {
@@ -66,7 +68,7 @@
     color: #aaaaaa;
 }
 
-.footer-container {
+.header-container {
     background-color: #212121;
     height: 60px;
     display: flex;
@@ -104,9 +106,9 @@
     margin-right: 20px;
 }
 
-.span-online {
-    color: #aaaaaa;
-}
+/*.span-online {*/
+/*    color: #aaaaaa;*/
+/*}*/
 
 .form {
     width: 100%;
@@ -125,7 +127,7 @@
 
 .message {
     min-width: 50px;
-    max-width: fit-content;
+    max-width: 500px;
     background-color: #766ac8;
     border-radius: 15px;
     margin: 4px 200px 4px 0;

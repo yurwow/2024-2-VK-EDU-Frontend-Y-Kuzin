@@ -2,8 +2,25 @@ const form = document.querySelector('form');
 const input = document.querySelector('.form-input');
 const messageContainer = document.querySelector('.message-container');
 
-const lastMessageTimeElement = document.querySelector('.sidebar-message-time'); // Элемент для времени последнего сообщения
-const lastMessageText = document.querySelector('.last-message');
+
+const chats = document.querySelector('.chat-container');
+const backButton = document.querySelector('.icon-back');
+backButton.addEventListener('click', () => {
+    exitChat();
+})
+
+const exitChat = () => {
+    messageContainer.innerHTML = '';
+
+    // Скрываем элементы чата, если нужно
+    chats.style.display = 'none';
+    form.style.display = 'none';
+    messageContainer.style.display = 'none';
+}
+
+
+const lastMessageTimeElement = document.querySelector('.sidebar-message-time');
+const lastMessageTextElement = document.querySelector('.last-message');
 
 const scrollButton = document.getElementById('scroll-to-bottom');
 // Показать кнопку только, если мы не внизу страницы
@@ -33,14 +50,13 @@ window.onload = function() {
     messages.forEach(msgObj => {
         displayMessage(msgObj.message.text, msgObj.message.time, msgObj.message.send);
     });
-    // Отобразить время последнего сообщения
+    // Отобразить время, текст последнего сообщения
     if (messages.length > 0) {
         const lastMessageTime = messages[messages.length - 1].message;
         lastMessageTimeElement.textContent = lastMessageTime.time;
         const lastMessageText = messages[messages.length - 1].message;
-        lastMessageText.textContent = lastMessageText.text;
+        lastMessageTextElement.textContent = lastMessageText.text;
     }
-
 }
 
 form.addEventListener('submit', handleSubmit);
@@ -60,7 +76,7 @@ function handleSubmit (event) {
         displayMessage(input.value, timeStr, sender);
 
         lastMessageTimeElement.textContent = timeStr;
-        lastMessageText.textContent = input.value;
+        lastMessageTextElement.textContent = input.value;
 
         input.value = "";
     }
