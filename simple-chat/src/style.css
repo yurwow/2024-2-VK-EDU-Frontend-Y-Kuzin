@@ -1,11 +1,16 @@
+.hidden {
+    display: none;
+}
+
 .page-container {
     display: flex;
 }
 
 .chat-list-container {
+    box-sizing: border-box;
     height: 100vh;
-    width: 600px;
-    max-width: 600px;
+    width: 460px;
+    max-width: 460px;
     border-right: 1px solid black;
 }
 
@@ -106,9 +111,15 @@
     margin-right: 20px;
 }
 
-/*.span-online {*/
-/*    color: #aaaaaa;*/
-/*}*/
+.icon-back {
+    border-radius: 50%;
+    cursor: pointer;
+    color: black;
+}
+
+.icon-back:hover {
+    background: #333333;
+}
 
 .form {
     width: 100%;
@@ -174,6 +185,12 @@ input {
     color: white;
     height: 40px;
     border: 0 solid rgba(25, 25, 25, 0.32);
+}
+
+.choose-chat {
+    position: fixed;
+    top: 50vh;
+    right: 500px;
 }
 
 .add-chat {

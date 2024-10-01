@@ -1,7 +1,22 @@
 const form = document.querySelector('form');
 const input = document.querySelector('.form-input');
 const messageContainer = document.querySelector('.message-container');
+const chooseChat = document.querySelector('.choose-chat');
 
+const chatElements = document.querySelectorAll('.chat-list');
+chatElements.forEach(chatElement => {
+    chatElement.addEventListener('click', () => {
+        enterChat();
+    });
+});
+
+const enterChat = () => {
+    chats.style.display = 'block';
+    form.style.display = 'block';
+    messageContainer.style.display = 'flex';
+    chooseChat.style.display = 'none';
+    loadMessages();
+}
 
 const chats = document.querySelector('.chat-container');
 const backButton = document.querySelector('.icon-back');
@@ -11,13 +26,11 @@ backButton.addEventListener('click', () => {
 
 const exitChat = () => {
     messageContainer.innerHTML = '';
-
-    // Скрываем элементы чата, если нужно
+    chooseChat.style.display = 'block';
     chats.style.display = 'none';
     form.style.display = 'none';
     messageContainer.style.display = 'none';
 }
-
 
 const lastMessageTimeElement = document.querySelector('.sidebar-message-time');
 const lastMessageTextElement = document.querySelector('.last-message');
@@ -36,7 +49,11 @@ scrollButton.addEventListener('click', function() {
     messageContainer.scrollTop = messageContainer.scrollHeight;
 });
 
-window.onload = function() {
+window.onload = () => loadMessages()
+
+const loadMessages = () => {
+    chooseChat.style.display = 'none';
+    messageContainer.innerHTML = '';
     let messages = [];
     Object.keys(localStorage).forEach(key => {
         if (key.startsWith('message')) {
