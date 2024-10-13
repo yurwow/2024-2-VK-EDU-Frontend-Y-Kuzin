@@ -1,7 +1,60 @@
 const form = document.querySelector('form');
 const input = document.querySelector('.form-input');
 const messageContainer = document.querySelector('.message-container');
-const chooseChat = document.querySelector('.choose-chat');
+const deleteMessages = document.querySelector('.delete_msg');
+
+deleteMessages.addEventListener('click', (e) => {
+    window.localStorage.clear();
+    location.reload();
+})
+
+let attachedImage = null;
+const fileUpload = document.getElementById('file_upload');
+const imagePreview = document.getElementById('image-preview');
+
+fileUpload.addEventListener('change', (event) => {
+    const file = event.target.files[0];
+
+    if (file && file.type.startsWith('image/')) {
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+            attachedImage = e.target.result; // Сохраняем изображение в переменную
+            const imgElement = document.createElement('img');
+            imgElement.src = attachedImage;
+            imgElement.alt = 'Uploaded Image';
+            imgElement.style.maxWidth = '200px';
+            imagePreview.innerHTML = ''; // Очищаем контейнер перед добавлением
+            imagePreview.appendChild(imgElement);
+        };
+
+        reader.readAsDataURL(file);
+    }
+});
+
+const textHeight = document.querySelector('.form-input');
+
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Enter' && !event.shiftKey) {
+        event.preventDefault();
+        form.dispatchEvent(new Event('submit'));
+    }
+});
+
+textHeight.addEventListener('input', function() {
+    this.style.height = 'auto'; // сбрасываем высоту
+    const scrollHeight = this.scrollHeight;
+    if (scrollHeight <= 250) {
+        this.style.height = scrollHeight + 'px';
+    } else {
+        this.style.height = '250px';
+    }
+
+    const textareaHeight = this.offsetHeight;
+    const containerHeight = `calc(100vh - ${textareaHeight + 150}px)`;
+    messageContainer.style.height = containerHeight;
+});
+
 
 const chatElements = document.querySelectorAll('.chat-list');
 chatElements.forEach(chatElement => {
@@ -14,7 +67,6 @@ const enterChat = () => {
     chats.style.display = 'block';
     form.style.display = 'block';
     messageContainer.style.display = 'flex';
-    chooseChat.style.display = 'none';
     loadMessages();
 }
 
@@ -26,7 +78,6 @@ backButton.addEventListener('click', () => {
 
 const exitChat = () => {
     messageContainer.innerHTML = '';
-    chooseChat.style.display = 'block';
     chats.style.display = 'none';
     form.style.display = 'none';
     messageContainer.style.display = 'none';
@@ -35,24 +86,9 @@ const exitChat = () => {
 const lastMessageTimeElement = document.querySelector('.sidebar-message-time');
 const lastMessageTextElement = document.querySelector('.last-message');
 
-const scrollButton = document.getElementById('scroll-to-bottom');
-// Показать кнопку только, если мы не внизу страницы
-messageContainer.addEventListener('scroll', function() {
-    if (messageContainer.scrollHeight - messageContainer.scrollTop > messageContainer.clientHeight + 100) {
-        scrollButton.style.display = 'block';
-    } else {
-        scrollButton.style.display = 'none';
-    }
-});
-// Прокрутка вниз при нажатии на кнопку
-scrollButton.addEventListener('click', function() {
-    messageContainer.scrollTop = messageContainer.scrollHeight;
-});
-
 window.onload = () => loadMessages()
 
 const loadMessages = () => {
-    chooseChat.style.display = 'none';
     messageContainer.innerHTML = '';
     let messages = [];
     Object.keys(localStorage).forEach(key => {
@@ -65,9 +101,8 @@ const loadMessages = () => {
         return parseInt(a.key.split('_')[1]) - parseInt(b.key.split('_')[1]);
     });
     messages.forEach(msgObj => {
-        displayMessage(msgObj.message.text, msgObj.message.time, msgObj.message.send);
+        displayMessage(msgObj.message.text, msgObj.message.time, msgObj.message.send, msgObj.message.image);
     });
-    // Отобразить время, текст последнего сообщения
     if (messages.length > 0) {
         const lastMessageTime = messages[messages.length - 1].message;
         lastMessageTimeElement.textContent = lastMessageTime.time;
@@ -79,7 +114,7 @@ const loadMessages = () => {
 form.addEventListener('submit', handleSubmit);
 
 function handleSubmit (event) {
-    if (input.value === "") {
+    if (input.value.trim() === "" && !attachedImage) {
         event.preventDefault()
     } else {
         event.preventDefault();
@@ -88,13 +123,25 @@ function handleSubmit (event) {
         const options = { hour: '2-digit', minute: '2-digit' };
         const timeStr = date.toLocaleTimeString([], options);
 
-        const message = { text: input.value, time: timeStr, send: sender };
+        const message = {
+            text: input.value || null,
+            image: attachedImage || null,
+            time: timeStr,
+            send: sender
+        };
         saveMessage(message)
-        displayMessage(input.value, timeStr, sender);
+        displayMessage(input.value, timeStr, sender, attachedImage);
+
+        imagePreview.innerHTML = '';
+        attachedImage = null;
+
+        input.style.height = '20px';
+        const textareaHeight = input.offsetHeight;
+        const containerHeight = `calc(100vh - ${textareaHeight + 150}px)`;
+        messageContainer.style.height = containerHeight;
 
         lastMessageTimeElement.textContent = timeStr;
         lastMessageTextElement.textContent = input.value;
-
         input.value = "";
     }
 }
@@ -104,12 +151,26 @@ function saveMessage(message) {
     localStorage.setItem(uniqueKey, JSON.stringify(message));
 }
 
-function displayMessage(text, time, send) {
+function displayMessage(text, time, send, image = null) {
     const newMessage = document.createElement("div");
     newMessage.classList.add("message");
 
-    const messageText = document.createElement("span")
-    messageText.innerText = text;
+    if (image) {
+        const imageContainer = document.createElement("div");
+        const imgElement = document.createElement("img");
+        imgElement.src = image;
+        imgElement.alt = "Uploaded Image";
+        imgElement.style.maxWidth = "200px";
+        imgElement.classList.add("images");
+        imageContainer.appendChild(imgElement)
+        newMessage.appendChild(imgElement);
+    }
+    const textContainer = document.createElement("div");
+    if (text) {
+        const messageText = document.createElement("span");
+        messageText.innerText = text;
+        textContainer.appendChild(messageText);
+    }
 
     const messageTime = document.createElement("span");
     messageTime.innerText = time;
@@ -117,10 +178,11 @@ function displayMessage(text, time, send) {
 
     const messageSender = document.createElement("span");
     messageSender.innerText = send;
-    messageSender.classList.add("message-send")
+    messageSender.classList.add("message-send");
 
-    newMessage.append(messageText, messageTime, messageSender)
-    messageContainer.prepend(newMessage)
+    textContainer.append(messageTime, messageSender);
+    newMessage.appendChild(textContainer);
+    messageContainer.prepend(newMessage);
 
     messageContainer.scrollTop = messageContainer.scrollHeight;
 }
