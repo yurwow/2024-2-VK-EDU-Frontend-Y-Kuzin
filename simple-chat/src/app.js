@@ -19,12 +19,12 @@ fileUpload.addEventListener('change', (event) => {
         const reader = new FileReader();
 
         reader.onload = function(e) {
-            attachedImage = e.target.result; // Сохраняем изображение в переменную
+            attachedImage = e.target.result;
             const imgElement = document.createElement('img');
             imgElement.src = attachedImage;
             imgElement.alt = 'Uploaded Image';
             imgElement.style.maxWidth = '200px';
-            imagePreview.innerHTML = ''; // Очищаем контейнер перед добавлением
+            imagePreview.innerHTML = '';
             imagePreview.appendChild(imgElement);
         };
 
