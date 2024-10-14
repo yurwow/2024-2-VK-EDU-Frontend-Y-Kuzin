@@ -168,9 +168,12 @@ function displayMessage(text, time, send, image = null) {
     const textContainer = document.createElement("div");
     if (text) {
         const messageText = document.createElement("span");
+        messageText.classList.add("message-text");
         messageText.innerText = text;
         textContainer.appendChild(messageText);
     }
+    const metadataContainer = document.createElement("div");
+    metadataContainer.classList.add("message-metadata");
 
     const messageTime = document.createElement("span");
     messageTime.innerText = time;
@@ -180,7 +183,8 @@ function displayMessage(text, time, send, image = null) {
     messageSender.innerText = send;
     messageSender.classList.add("message-send");
 
-    textContainer.append(messageTime, messageSender);
+    metadataContainer.append(messageTime, messageSender);
+    textContainer.append(metadataContainer);
     newMessage.appendChild(textContainer);
     messageContainer.prepend(newMessage);
 
