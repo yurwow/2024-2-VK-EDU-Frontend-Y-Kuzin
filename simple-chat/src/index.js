@@ -21,12 +21,12 @@ fileUpload.addEventListener('change', (event) => {
         const reader = new FileReader();
 
         reader.onload = function(e) {
-            attachedImage = e.target.result; // Сохраняем изображение в переменную
+            attachedImage = e.target.result;
             const imgElement = document.createElement('img');
             imgElement.src = attachedImage;
             imgElement.alt = 'Uploaded Image';
             imgElement.style.maxWidth = '200px';
-            imagePreview.innerHTML = ''; // Очищаем контейнер перед добавлением
+            imagePreview.innerHTML = '';
             imagePreview.appendChild(imgElement);
         };
 
@@ -44,7 +44,7 @@ document.addEventListener('keydown', function(event) {
 });
 
 textHeight.addEventListener('input', function() {
-    this.style.height = 'auto'; // сбрасываем высоту
+    this.style.height = 'auto';
     const scrollHeight = this.scrollHeight;
     if (scrollHeight <= 250) {
         this.style.height = scrollHeight + 'px';

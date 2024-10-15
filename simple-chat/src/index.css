@@ -20,6 +20,9 @@ html {
     .message {
         max-width: 400px;
     }
+    .nickname {
+        width: 400px;
+    }
 }
 
 @media (max-width: 768px) {
@@ -31,6 +34,9 @@ html {
     }
     .input-container {
         width: 300px;
+    }
+    .nickname {
+        width: 250px;
     }
 }
 
@@ -65,12 +71,12 @@ body {
     display: flex;
     align-items: center;
     margin-left: 50px;
+    gap: 15px;
 }
 
 .profile-container {
     display: flex;
     flex-direction: column;
-    margin-left: 10px;
 }
 
 .profile-search {
@@ -83,7 +89,6 @@ body {
 .icon-back {
     display: flex;
     align-items: center;
-    margin-right: 20px;
 }
 
 .icon-search {
@@ -92,10 +97,10 @@ body {
 }
 
 .nickname {
-    max-width: 150px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    max-width: 700px;
 }
 
 .span-online {
@@ -123,7 +128,6 @@ body {
     margin-bottom: 4px;
     padding: 5px 5px 5px 10px;
 }
-
 
 .message-time {
     color: #bfb9e5;
