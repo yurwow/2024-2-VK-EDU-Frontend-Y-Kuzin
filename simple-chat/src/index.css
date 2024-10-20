@@ -20,9 +20,6 @@ html {
     .message {
         max-width: 400px;
     }
-    .nickname {
-        width: 400px;
-    }
 }
 
 @media (max-width: 768px) {
@@ -35,17 +32,11 @@ html {
     .input-container {
         width: 300px;
     }
-    .nickname {
-        width: 250px;
-    }
 }
 
 @media (max-width: 600px) {
     .message {
         max-width: 200px;
-    }
-    .nickname {
-        width: 100px;
     }
 }
 
@@ -75,8 +66,8 @@ body {
 }
 
 .profile-container {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    margin-right: 20px;
 }
 
 .profile-search {
@@ -100,7 +91,6 @@ body {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 700px;
 }
 
 .span-online {
