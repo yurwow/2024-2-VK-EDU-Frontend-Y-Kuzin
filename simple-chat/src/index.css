@@ -56,18 +56,18 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 20px;
 }
 
 .profile {
     display: flex;
     align-items: center;
     margin-left: 50px;
-    gap: 15px;
+    gap: 20px;
 }
 
 .profile-container {
     display: grid;
-    margin-right: 20px;
 }
 
 .profile-search {
