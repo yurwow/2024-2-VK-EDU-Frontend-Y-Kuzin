@@ -1,0 +1,56 @@
+.chat_list {
+    border-top:1px solid black ;
+    height: 70px;
+    background-color:  #212121;
+    display: flex;
+    align-items: center;
+    padding: 0 10px 0 10px;
+}
+
+.chat_list:hover {
+    background-color: #766ac8;
+    border-radius: 15px;
+}
+
+.chat_list:active {
+    transform: scale(0.99);
+}
+
+.icon_profile {
+    margin-right: 20px;
+    width: 36px;
+}
+
+.chat_profile {
+    display: flex;
+    flex-direction: column;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.nickname {
+    max-width: 150px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.last_message {
+    max-width: 200px;
+    width: 200px;
+    color: #aaaaaa;
+}
+
+.sidebar_message_time_container {
+    display: flex;
+    margin-bottom: 30px;
+    font-size: 14px;
+}
+
+.sidebar_message_time {
+    height: 20px;
+    width: 35px;
+    margin-right: 10px;
+    color: #aaaaaa;
+}

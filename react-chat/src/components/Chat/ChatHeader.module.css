@@ -1,0 +1,83 @@
+.header_container {
+    background-color: #212121;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.profile {
+    display: flex;
+    align-items: center;
+    margin-left: 50px;
+}
+
+.profile_container {
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+}
+
+.icon_back {
+    width: 24px;
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+    border-radius: 50%;
+    cursor: pointer;
+    color: black;
+}
+
+.icon_back:active {
+    transform: scale(0.9);
+}
+
+.nickname {
+    max-width: 150px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.span_online {
+    color: #aaaaaa;
+}
+
+.profile_search {
+    display: flex;
+    align-items: center;
+    margin-right: 50px;
+    gap: 20px;
+}
+
+.delete_msg {
+    width: 24px;
+}
+
+.delete_msg:hover {
+    cursor: pointer;
+}
+
+.delete_msg:active {
+    transform: scale(0.9);
+}
+
+.icon_search {
+    width: 24px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.icon_search:active {
+    transform: scale(0.9);
+}
+
+.icon_setting_chat {
+    width: 24px;
+    cursor: pointer;
+}
+
+.icon_setting_chat:active {
+    transform: scale(0.9);
+}

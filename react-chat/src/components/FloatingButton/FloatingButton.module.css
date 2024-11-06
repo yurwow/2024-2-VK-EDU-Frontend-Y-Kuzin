@@ -1,0 +1,19 @@
+.add_chat {
+    position: fixed;
+    background-color: #888888;
+    outline: none;
+    border: none;
+    border-radius: 50%;
+    padding: 12px;
+    bottom: 50px;
+    left: 250px;
+    cursor: pointer;
+}
+
+.add_chat:hover {
+    background-color: #aaaaaa;
+}
+
+.add_chat:active {
+    transform: scale(0.9);
+}

@@ -1,0 +1,72 @@
+@media (min-width: 1201px) {
+    .form-input {
+        width: 500px;
+    }
+}
+
+.form {
+    width: 100%;
+    display: inline-block;
+}
+
+.input_container {
+    display: flex;
+    left: 50%;
+    transform: translateX(-15%);
+    position: fixed;
+    bottom: 20px;
+    align-items: flex-end;
+    background-color: #333333;
+    border-radius: 15px;
+    height: auto;
+    padding: 10px;
+}
+
+.emoji_icon {
+    padding-right: 10px;
+    padding-left: 10px;
+    cursor: pointer;
+}
+
+.emoji_icon:active {
+    transform: scale(0.9);
+}
+
+.form_input {
+    outline: none;
+    /*width: 500px;*/
+    background-color: #333333;
+    color: white;
+    height: 20px;
+    border: 0 solid rgba(25, 25, 25, 0.32);
+    resize: none;
+    font-family: Helvetica, Arial, sans-serif;
+    max-height: 250px;
+}
+
+.upload_icon {
+    width: 24px;
+    height: 24px;
+    margin-bottom: 4px;
+    cursor: pointer;
+}
+
+.upload_icon:active {
+    transform: scale(0.9);
+}
+
+.btn_send_msg {
+    background-color: #766ac8;
+    border: none;
+    border-radius: 50%;
+    padding: 1px 5px;
+    margin-bottom: 1px;
+}
+
+.btn_send_msg:hover {
+    cursor: pointer;
+}
+
+.btn_send_msg:active {
+    transform: scale(0.9);
+}

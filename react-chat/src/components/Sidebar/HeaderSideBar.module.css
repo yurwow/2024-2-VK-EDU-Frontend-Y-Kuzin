@@ -1,0 +1,25 @@
+.header_container {
+    background-color: #212121;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10px 0 10px;
+}
+
+.sidebar_setting_icon {
+    width: 24px;
+    cursor: pointer;
+}
+
+.sidebar_setting_icon:active {
+    transform: scale(0.9);
+}
+
+.sidebar_search_icon {
+    cursor: pointer;
+}
+
+.sidebar_search_icon:active {
+    transform: scale(0.9);
+}
