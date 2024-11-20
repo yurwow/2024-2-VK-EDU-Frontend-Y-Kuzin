@@ -79,12 +79,44 @@ module.exports = {
                     },
                 ],
             },
+            {
+                test: /sideBar\.css$/,
+                include: SRC_PATH,
+                use: [
+                    {
+                        loader: MiniCSSExtractPlugin.loader,
+                    },
+                    {
+                        loader: 'css-loader'
+                    },
+                ],
+            },
+            {
+                test: /headerChat\.css$/,
+                include: SRC_PATH,
+                use: [
+                    {
+                        loader: MiniCSSExtractPlugin.loader,
+                    },
+                    {
+                        loader: 'css-loader'
+                    },
+                ],
+            },
         ],
     },
     plugins: [
         new MiniCSSExtractPlugin({
             filename: 'style.css',
             template: './style.css',
+        }),
+        new MiniCSSExtractPlugin({
+            filename: 'sideBar.css',
+            template: './sideBar.css',
+        }),
+        new MiniCSSExtractPlugin({
+            filename: 'headerChat.css',
+            template: './headerChat.css',
         }),
         new HTMLWebpackPlugin({
             filename: 'index.html',

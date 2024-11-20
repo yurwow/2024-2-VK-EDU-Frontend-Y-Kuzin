@@ -1,12 +1,25 @@
+import {enterChat, exitChat, updateActiveChatUI, updateSidebarChats} from "./logic/ui";
+import {saveMessage} from "./logic/storage";
+
 const form = document.querySelector('form');
 const input = document.querySelector('.form-input');
 const messageContainer = document.querySelector('.message-container');
 const deleteMessages = document.querySelector('.delete_msg');
 
 deleteMessages.addEventListener('click', (e) => {
-    window.localStorage.clear();
-    location.reload();
-})
+    Object.keys(localStorage).forEach(key => {
+        if (key.startsWith(`${currentChatId}_message`)) {
+            localStorage.removeItem(key);
+        }
+    });
+
+    const lastMessageKey = `${currentChatId}_lastMessage`;
+    localStorage.removeItem(lastMessageKey);
+
+    updateSidebarChats(chatItems);
+
+    messageContainer.innerHTML = '<p>No messages yet.</p>';
+});
 
 let attachedImage = null;
 const fileUpload = document.getElementById('file_upload');
@@ -19,12 +32,12 @@ fileUpload.addEventListener('change', (event) => {
         const reader = new FileReader();
 
         reader.onload = function(e) {
-            attachedImage = e.target.result; // Сохраняем изображение в переменную
+            attachedImage = e.target.result;
             const imgElement = document.createElement('img');
             imgElement.src = attachedImage;
             imgElement.alt = 'Uploaded Image';
             imgElement.style.maxWidth = '200px';
-            imagePreview.innerHTML = ''; // Очищаем контейнер перед добавлением
+            imagePreview.innerHTML = '';
             imagePreview.appendChild(imgElement);
         };
 
@@ -42,7 +55,7 @@ document.addEventListener('keydown', function(event) {
 });
 
 textHeight.addEventListener('input', function() {
-    this.style.height = 'auto'; // сбрасываем высоту
+    this.style.height = 'auto';
     const scrollHeight = this.scrollHeight;
     if (scrollHeight <= 250) {
         this.style.height = scrollHeight + 'px';
@@ -59,63 +72,69 @@ textHeight.addEventListener('input', function() {
 const chatElements = document.querySelectorAll('.chat-list');
 chatElements.forEach(chatElement => {
     chatElement.addEventListener('click', () => {
-        enterChat();
+        enterChat(chats, form, messageContainer, loadMessages);
     });
 });
-
-const enterChat = () => {
-    chats.style.display = 'block';
-    form.style.display = 'block';
-    messageContainer.style.display = 'flex';
-    loadMessages();
-}
 
 const chats = document.querySelector('.chat-container');
 const backButton = document.querySelector('.icon-back');
 backButton.addEventListener('click', () => {
-    exitChat();
+    exitChat(messageContainer, chats, form);
 })
-
-const exitChat = () => {
-    messageContainer.innerHTML = '';
-    chats.style.display = 'none';
-    form.style.display = 'none';
-    messageContainer.style.display = 'none';
-}
 
 const lastMessageTimeElement = document.querySelector('.sidebar-message-time');
 const lastMessageTextElement = document.querySelector('.last-message');
 
-window.onload = () => loadMessages()
+window.onload = () => {
+    const savedChatId = localStorage.getItem('activeChatId');
+    currentChatId = savedChatId || 'chat1';
 
-const loadMessages = () => {
+    chatItems.forEach(chatItem => {
+        const chatId = chatItem.getAttribute('data-chat-id');
+        if (chatId === currentChatId) {
+            chatItem.classList.add('active');
+        } else {
+            chatItem.classList.remove('active');
+        }
+    });
+
+    updateActiveChatUI(chatItems, currentChatId);
+    loadMessages();
+    updateSidebarChats(chatItems);
+};
+
+function loadMessages() {
     messageContainer.innerHTML = '';
     let messages = [];
+
     Object.keys(localStorage).forEach(key => {
-        if (key.startsWith('message')) {
+        if (key.startsWith(`${currentChatId}_message`)) {
             const message = JSON.parse(localStorage.getItem(key));
             messages.push({ key, message });
         }
     });
+
     messages.sort((a, b) => {
-        return parseInt(a.key.split('_')[1]) - parseInt(b.key.split('_')[1]);
+        const aTime = parseInt(a.key.split('_')[2]);
+        const bTime = parseInt(b.key.split('_')[2]);
+        return aTime - bTime;
     });
+
     messages.forEach(msgObj => {
-        displayMessage(msgObj.message.text, msgObj.message.time, msgObj.message.send, msgObj.message.image);
+        displayMessage(
+            msgObj.message.text,
+            msgObj.message.time,
+            msgObj.message.send,
+            msgObj.message.image
+        );
     });
-    if (messages.length > 0) {
-        const lastMessageTime = messages[messages.length - 1].message;
-        lastMessageTimeElement.textContent = lastMessageTime.time;
-        const lastMessageText = messages[messages.length - 1].message;
-        lastMessageTextElement.textContent = lastMessageText.text;
-    }
 }
 
 form.addEventListener('submit', handleSubmit);
 
-function handleSubmit (event) {
+function handleSubmit(event) {
     if (input.value.trim() === "" && !attachedImage) {
-        event.preventDefault()
+        event.preventDefault();
     } else {
         event.preventDefault();
         let sender = 'я';
@@ -126,11 +145,19 @@ function handleSubmit (event) {
         const message = {
             text: input.value || null,
             image: attachedImage || null,
+            imageName: fileUpload.files[0] ? fileUpload.files[0].name : null,
             time: timeStr,
             send: sender
         };
-        saveMessage(message)
+
+        saveMessage(currentChatId, message);
         displayMessage(input.value, timeStr, sender, attachedImage);
+
+        if (message.imageName) {
+            lastMessageTextElement.textContent = message.imageName;
+        } else {
+            lastMessageTextElement.textContent = input.value;
+        }
 
         imagePreview.innerHTML = '';
         attachedImage = null;
@@ -141,15 +168,12 @@ function handleSubmit (event) {
         messageContainer.style.height = containerHeight;
 
         lastMessageTimeElement.textContent = timeStr;
-        lastMessageTextElement.textContent = input.value;
         input.value = "";
+        updateSidebarChats(chatItems);
     }
 }
 
-function saveMessage(message) {
-    const uniqueKey = 'message_' + Date.now();
-    localStorage.setItem(uniqueKey, JSON.stringify(message));
-}
+let currentChatId = 'chat1';
 
 function displayMessage(text, time, send, image = null) {
     const newMessage = document.createElement("div");
@@ -190,3 +214,21 @@ function displayMessage(text, time, send, image = null) {
 
     messageContainer.scrollTop = messageContainer.scrollHeight;
 }
+
+const chatItems = document.querySelectorAll('.chat-list');
+
+chatItems.forEach(chatItem => {
+    chatItem.addEventListener('click', () => {
+        const chatId = chatItem.getAttribute('data-chat-id');
+        if (chatId !== currentChatId) {
+            currentChatId = chatId;
+            localStorage.setItem('activeChatId', currentChatId);
+
+            messageContainer.innerHTML = '';
+            loadMessages();
+
+            chatItems.forEach(item => item.classList.remove('active'));
+            chatItem.classList.add('active');
+        }
+    });
+});
