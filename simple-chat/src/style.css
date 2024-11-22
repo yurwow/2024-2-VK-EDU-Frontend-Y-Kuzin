@@ -168,7 +168,7 @@
 
 .form-input {
     outline: none;
-    /*width: 500px;*/
+    width: 500px;
     background-color: #333333;
     color: white;
     height: 20px;
