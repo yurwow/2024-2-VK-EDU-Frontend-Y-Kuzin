@@ -18,4 +18,55 @@ body {
     line-height: 20px;
 }
 
+input[type=submit] {
+    visibility: collapse;
+}
 
+@media (max-width: 768px) {
+    .chat-list-container {
+        width: 250px;
+        max-width: 250px;
+    }
+    .message {
+        max-width: 300px;
+    }
+    .form-input {
+        max-width: 200px;
+    }
+    .input-container {
+        width: 300px;
+    }
+}
+
+@media (max-width: 600px) {
+    .message {
+        max-width: 200px;
+    }
+    .nickname {
+        width: 100px;
+    }
+    .form-input {
+        max-width: 100px;
+    }
+    .input-container {
+        width: 150px;
+    }
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #333333;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
