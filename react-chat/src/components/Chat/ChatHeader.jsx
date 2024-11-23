@@ -5,6 +5,7 @@ import accountIcon from '../../icons/account.png'
 import deleteHistoryIcon from '../../icons/delete_history.png'
 import searchIcon from '../../icons/search.png'
 import moreMenuIcon from '../../icons/moreMenu.png'
+
 const ChatHeader = () => {
     return (
         <div className={styles.header_container}>

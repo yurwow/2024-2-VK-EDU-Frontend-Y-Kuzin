@@ -43,6 +43,10 @@
     margin-left: 5px;
 }
 
+.message_image {
+    padding: 3px;
+}
+
 @keyframes messageAppear {
     0% {
         opacity: 0;

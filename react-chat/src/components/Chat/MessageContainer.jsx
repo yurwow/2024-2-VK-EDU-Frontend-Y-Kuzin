@@ -1,17 +1,30 @@
 import React from 'react';
 import styles from './MessageContainer.module.css';
 
-
-const MessageContainer = () => {
+const MessageContainer = ({ messages }) => {
     return (
         <div className={styles.message_container}>
-            <div className={styles.message}>
-                <span className={styles.message_text}>fnkjvdnjkfvjkdvfkd</span>
-                <div className={styles.message_metadata}>
-                    <span className={styles.message_time}>10:20</span>
-                    <span className={styles.message_send}>я</span>
+            {messages.map((msg) => (
+                <div key={msg.id} className={styles.message}>
+                    {msg.image && (
+                        <div className={styles.message_image}>
+                            <img src={msg.image} alt="attached" style={{maxWidth: '100px', maxHeight: '100px'}}/>
+                        </div>
+                    )}
+                    <span className={styles.message_text}>{msg.content}</span>
+                    <div className={styles.message_metadata}>
+                        <span className={styles.message_time}>
+                            {msg.timestamp
+                                ? new Date(msg.timestamp).toLocaleTimeString([], {
+                                    hour: '2-digit',
+                                    minute: '2-digit',
+                                })
+                                : '—'}
+                        </span>
+                        <span className={styles.message_send}>{msg.sender}</span>
+                    </div>
                 </div>
-            </div>
+            ))}
         </div>
     );
 };

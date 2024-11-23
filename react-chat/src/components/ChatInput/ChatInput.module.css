@@ -34,14 +34,15 @@
 
 .form_input {
     outline: none;
-    /*width: 500px;*/
+    width: 500px;
     background-color: #333333;
     color: white;
     height: 20px;
     border: 0 solid rgba(25, 25, 25, 0.32);
-    resize: none;
     font-family: Helvetica, Arial, sans-serif;
     max-height: 250px;
+    overflow: hidden;
+    resize: none;
 }
 
 .upload_icon {
@@ -69,4 +70,10 @@
 
 .btn_send_msg:active {
     transform: scale(0.9);
+}
+
+.image_preview_delete {
+    cursor: pointer;
+    width: 30px;
+    margin-left: 5px;
 }
