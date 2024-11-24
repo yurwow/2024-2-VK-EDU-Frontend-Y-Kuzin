@@ -1,5 +1,5 @@
-import ChatListItem from "./ChatListItem/ChatListItem.jsx";
-import FloatingButton from "../FloatingButton/FloatingButton.jsx";
+import ChatListItem from "../ChatListItem/ChatListItem.jsx";
+import FloatingButton from "../../FloatingButton/FloatingButton.jsx";
 
 const ChatList = ({ chats, activeChat, onSelectChat, onCreateChat }) => {
     return (

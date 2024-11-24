@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './HeaderSideBar.module.css';
-import menuIcon from '../../icons/menu.png'
-import searchIcon from '../../icons/search.png'
+import menuIcon from '../../../icons/menu.png'
+import searchIcon from '../../../icons/search.png'
 const HeaderSideBar = () => {
     return (
         <>

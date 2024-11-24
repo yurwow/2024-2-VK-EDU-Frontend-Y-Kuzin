@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from "../ChatList.module.css";
+import styles from "../ChatList/ChatList.module.css";
 import accountImage from "../../../icons/account.png";
 import doneAllImage from "../../../icons/done_all.png";
 
