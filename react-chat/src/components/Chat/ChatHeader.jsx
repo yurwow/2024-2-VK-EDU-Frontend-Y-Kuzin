@@ -6,7 +6,7 @@ import deleteHistoryIcon from '../../icons/delete_history.png'
 import searchIcon from '../../icons/search.png'
 import moreMenuIcon from '../../icons/moreMenu.png'
 
-const ChatHeader = () => {
+const ChatHeader = ({handleClearMessages}) => {
     return (
         <div className={styles.header_container}>
             <div className={styles.profile}>
@@ -18,7 +18,7 @@ const ChatHeader = () => {
                 </div>
             </div>
             <div className={styles.profile_search}>
-                <img src={deleteHistoryIcon} alt="delete icon" className={styles.delete_msg}/>
+                <img onClick={handleClearMessages} src={deleteHistoryIcon} alt="delete icon" className={styles.delete_msg}/>
                 <img src={searchIcon} alt="search icon" className={styles.icon_search} />
                 <img src={moreMenuIcon} alt="menu" className={styles.icon_setting_chat}/>
             </div>

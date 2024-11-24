@@ -71,7 +71,7 @@ const ChatInput = ({ onSendMessage, senderName }) => {
                         <div>
                             <img src={image} alt="preview" style={{ width: '100px', height: '100px' }} />
                             <a onClick={() => setImage(null)}>
-                                <img className={styles.image_preview_delete} src={delete_img} alt="delete img"/>
+                                <img className={styles.image_preview_delete} src={delete_img} alt="delete img" />
                             </a>
                         </div>
                     )}
