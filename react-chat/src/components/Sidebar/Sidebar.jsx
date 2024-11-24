@@ -4,11 +4,11 @@ import ChatList from "./ChatList.jsx";
 import styles from "./Sidebar.module.css";
 import FloatingButton from "../FloatingButton/FloatingButton.jsx";
 
-const Sidebar = () => {
+const Sidebar = ({messages}) => {
     return (
         <div className={styles.chat_list_container}>
             <HeaderSideBar />
-            <ChatList/>
+            <ChatList messages={messages}/>
             <FloatingButton/>
         </div>
     );

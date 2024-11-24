@@ -9,6 +9,7 @@ const ChatInput = ({ onSendMessage, senderName }) => {
     const textareaRef = useRef(null);
     const [message, setMessage] = useState('');
     const [image, setImage] = useState(null);
+    const [imageName, setImageName] = useState('');
 
     const handleInput = () => {
         const textarea = textareaRef.current;
@@ -27,11 +28,13 @@ const ChatInput = ({ onSendMessage, senderName }) => {
             timestamp: new Date().toISOString(),
             id: Date.now(),
             image: image,
+            imageName: imageName
         };
 
         onSendMessage(newMessage);
         setMessage('');
         setImage(null);
+        setImageName('');
 
         if (textareaRef.current) {
             textareaRef.current.style.height = 'auto';
@@ -51,6 +54,7 @@ const ChatInput = ({ onSendMessage, senderName }) => {
             const reader = new FileReader();
             reader.onloadend = () => {
                 setImage(reader.result);
+                setImageName(file.name);
             };
             reader.readAsDataURL(file);
         }
@@ -62,7 +66,6 @@ const ChatInput = ({ onSendMessage, senderName }) => {
                 <div className={styles.emoji_icon}>
                     <img src={emojiIcon} alt="emoji" style={{ width: '24px' }} />
                 </div>
-
                 <div className="textarea-container">
                     {image && (
                         <div>
