@@ -1,10 +1,17 @@
-import Sidebar from "./components/Sidebar/SideBar/Sidebar.jsx";
 import HomePage from "./pages/HomePage/HomePage.jsx";
+import {HashRouter, Navigate, Route, Routes} from "react-router-dom";
+import NotFound from "./pages/NotFound/NotFound.jsx";
 
 function App() {
   return (
     <>
-      <HomePage/>
+        <HashRouter>
+            <Routes>
+                <Route path='/' element={<Navigate to="/chat/chat1"/>}/>
+                <Route path="/chat/:chatId" element={<HomePage/>}/>
+                <Route path='*' element={<NotFound/>}/>
+            </Routes>
+        </HashRouter>
     </>
   )
 }

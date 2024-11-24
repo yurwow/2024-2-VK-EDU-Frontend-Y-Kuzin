@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './MessageContainer.module.css';
 
-const MessageContainer = ({ messages }) => {
+const MessageContainer = ({ messages = [] }) => {
     return (
         <div className={styles.message_container}>
             {messages.map((msg) => (

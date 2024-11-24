@@ -1,14 +1,17 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import Sidebar from "../../components/Sidebar/SideBar/Sidebar.jsx";
 import styles from "./HomePage.module.css";
 import Chat from "../../components/Chat/Chat.jsx";
 
 const HomePage = () => {
+    const { chatId } = useParams();
+    const navigate = useNavigate();
     const [chats, setChats] = useState({
         chat1: [],
         chat2: [],
     });
-    const [activeChat, setActiveChat] = useState('chat1');
+    const [activeChat, setActiveChat] = useState(chatId || 'chat1');
 
     useEffect(() => {
         const savedChats = localStorage.getItem('chatMessages');
@@ -18,10 +21,12 @@ const HomePage = () => {
             setChats(JSON.parse(savedChats));
         }
 
-        if (savedActiveChat) {
+        if (savedActiveChat && !chatId) {
             setActiveChat(savedActiveChat);
+        } else if (chatId) {
+            setActiveChat(chatId);
         }
-    }, []);
+    }, [chatId]);
 
     useEffect(() => {
         if (chats.chat1.length > 0 || chats.chat2.length > 0) {
@@ -43,6 +48,7 @@ const HomePage = () => {
 
     const handleSelectChat = (chatId) => {
         setActiveChat(chatId);
+        navigate(`/chat/${chatId}`);
     };
 
     const handleCreateChat = () => {
@@ -52,6 +58,7 @@ const HomePage = () => {
             [newChatId]: [],
         }));
         setActiveChat(newChatId);
+        navigate(`/chat/${newChatId}`);
     };
 
     const handleClearMessages = () => {
@@ -66,13 +73,18 @@ const HomePage = () => {
     };
 
     return (
-        <div className={styles.page_container} >
+        <div className={styles.page_container}>
             <Sidebar
                 chats={chats}
                 activeChat={activeChat}
                 onSelectChat={handleSelectChat}
-                onCreateChat={handleCreateChat}/>
-            <Chat handleClearMessages={handleClearMessages} messages={chats[activeChat]} onSendMessage={handleSendMessage}/>
+                onCreateChat={handleCreateChat}
+            />
+            <Chat
+                handleClearMessages={handleClearMessages}
+                messages={chats[activeChat]}
+                onSendMessage={handleSendMessage}
+            />
         </div>
     );
 };
