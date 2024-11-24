@@ -4,12 +4,14 @@ import emojiIcon from '../../icons/emoji.png';
 import addFileIcon from '../../icons/addFile.png';
 import sendIcon from '../../icons/sendMsg.png';
 import delete_img from '../../icons/delete_img.png';
+import {emojiList} from "./emoji.js";
 
 const ChatInput = ({ onSendMessage, senderName }) => {
     const textareaRef = useRef(null);
     const [message, setMessage] = useState('');
     const [image, setImage] = useState(null);
     const [imageName, setImageName] = useState('');
+    const [emojiPickerVisible, setEmojiPickerVisible] = useState(false);
 
     const handleInput = () => {
         const textarea = textareaRef.current;
@@ -60,12 +62,35 @@ const ChatInput = ({ onSendMessage, senderName }) => {
         }
     };
 
+    const handleEmojiClick = (emoji) => {
+        setMessage(prevMessage => prevMessage + emoji);
+        setEmojiPickerVisible(false);
+    };
+
     return (
         <form className={styles.form} onSubmit={(e) => e.preventDefault()}>
             <div className={styles.input_container}>
                 <div className={styles.emoji_icon}>
-                    <img src={emojiIcon} alt="emoji" style={{ width: '24px' }} />
+                    <img
+                        src={emojiIcon}
+                        alt="emoji"
+                        style={{ width: '24px' }}
+                        onClick={() => setEmojiPickerVisible(!emojiPickerVisible)}
+                    />
                 </div>
+                {emojiPickerVisible && (
+                    <div className={styles.emoji_picker}>
+                        {emojiList.map((emoji, index) => (
+                            <span
+                                key={index}
+                                className={styles.emoji_item}
+                                onClick={() => handleEmojiClick(emoji)}
+                            >
+                                {emoji}
+                            </span>
+                        ))}
+                    </div>
+                )}
                 <div className="textarea-container">
                     {image && (
                         <div>
@@ -101,7 +126,11 @@ const ChatInput = ({ onSendMessage, senderName }) => {
                         onChange={handleFileChange}
                     />
                 </div>
-                <button type="button" className={styles.btn_send_msg} onClick={handleSubmit}>
+                <button
+                    type="button"
+                    className={styles.btn_send_msg}
+                    onClick={handleSubmit}
+                >
                     <img src={sendIcon} style={{ width: '24px' }} alt="send icon" />
                 </button>
             </div>
