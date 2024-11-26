@@ -1,0 +1,133 @@
+.hidden {
+    display: none;
+}
+
+.page-container {
+    display: flex;
+}
+
+.chat-container {
+    width: 100%;
+}
+
+.form {
+    width: 100%;
+    display: inline-block;
+}
+
+.message-container {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: flex-end;
+    position: relative;
+    width: 100%;
+    height: calc(100vh - 150px);
+    overflow-y: auto;
+    transition: height 0.3s ease;
+}
+
+.message {
+    min-width: 50px;
+    max-width: 450px;
+    background-color: #766ac8;
+    border-radius: 15px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    padding: 5px 5px 5px 10px;
+    margin-right: 20px;
+}
+
+.message-text {
+    overflow-wrap: break-word;
+}
+
+.message-time {
+    color: #bfb9e5;
+    font-size: 10px;
+    margin-left: 5px;
+}
+
+.message-send {
+    color: #bfb9e5;
+    font-size: 12px;
+    margin-left: 5px;
+}
+
+.message-metadata {
+    display: flex;
+    justify-content: end;
+}
+
+.input-container {
+    display: flex;
+    left: 50%;
+    transform: translateX(-15%);
+    position: fixed;
+    bottom: 20px;
+    align-items: flex-end;
+    background-color: #333333;
+    border-radius: 15px;
+    height: auto;
+    padding: 10px;
+}
+
+.emoji-icon {
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.upload_icon {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    margin-bottom: 4px;
+}
+
+.btn_send_msg {
+    background-color: #766ac8;
+    border: none;
+    border-radius: 50%;
+    padding: 1px 5px;
+    margin-bottom: 1px;
+}
+
+.btn_send_msg:hover {
+    cursor: pointer;
+}
+
+.images {
+    padding: 5px;
+}
+
+.form-input {
+    outline: none;
+    width: 500px;
+    background-color: #333333;
+    color: white;
+    height: 20px;
+    border: 0 solid rgba(25, 25, 25, 0.32);
+    resize: none;
+    font-family: Helvetica, Arial, sans-serif;
+    max-height: 250px;
+}
+
+.choose-chat {
+    position: fixed;
+    top: 50vh;
+    right: 500px;
+}
+
+.add-chat {
+    position: fixed;
+    background-color: #888888;
+    outline: none;
+    border: none;
+    border-radius: 50%;
+    padding: 12px;
+    bottom: 50px;
+    left: 250px;
+}
+
+.add-chat:hover {
+    background-color: #aaaaaa;
+}
