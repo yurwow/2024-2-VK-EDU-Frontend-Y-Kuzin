@@ -41,3 +41,27 @@ export const updateActiveChatUI = (chatItems, currentChatId) => {
         }
     });
 };
+
+export function handleDeleteMessages(currentChatId, messageContainer, chatItems, updateSidebarChats) {
+    Object.keys(localStorage).forEach(key => {
+        if (key.startsWith(`${currentChatId}_message`)) {
+            localStorage.removeItem(key);
+        }
+    });
+
+    const lastMessageKey = `${currentChatId}_lastMessage`;
+    localStorage.removeItem(lastMessageKey);
+
+    updateSidebarChats(chatItems);
+
+    messageContainer.innerHTML = '<p></p>';
+}
+
+export function handleEnterKey(form) {
+    document.addEventListener('keydown', function (event) {
+        if (event.key === 'Enter' && !event.shiftKey) {
+            event.preventDefault();
+            form.dispatchEvent(new Event('submit'));
+        }
+    });
+}

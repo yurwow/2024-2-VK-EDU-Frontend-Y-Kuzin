@@ -1,24 +1,26 @@
-import {enterChat, exitChat, updateActiveChatUI, updateSidebarChats} from "./logic/ui";
+import {
+    enterChat,
+    exitChat,
+    handleDeleteMessages,
+    handleEnterKey,
+    updateActiveChatUI,
+    updateSidebarChats
+} from "./logic/ui";
 import {saveMessage} from "./logic/storage";
+import {handleFileUpload} from "./logic/fileUpload";
+import {adjustTextHeight} from "./logic/adjustTextHeight";
+import {handleSubmit} from "./logic/handleSubmit";
+import {handleWindowLoad} from "./logic/onLoad";
 
 const form = document.querySelector('form');
+handleEnterKey(form);
+
 const input = document.querySelector('.form-input');
 const messageContainer = document.querySelector('.message-container');
 const deleteMessages = document.querySelector('.delete_msg');
 
-deleteMessages.addEventListener('click', (e) => {
-    Object.keys(localStorage).forEach(key => {
-        if (key.startsWith(`${currentChatId}_message`)) {
-            localStorage.removeItem(key);
-        }
-    });
-
-    const lastMessageKey = `${currentChatId}_lastMessage`;
-    localStorage.removeItem(lastMessageKey);
-
-    updateSidebarChats(chatItems);
-
-    messageContainer.innerHTML = '<p>No messages yet.</p>';
+deleteMessages.addEventListener('click', () => {
+    handleDeleteMessages(currentChatId, messageContainer, chatItems, updateSidebarChats);
 });
 
 let attachedImage = null;
@@ -26,48 +28,13 @@ const fileUpload = document.getElementById('file_upload');
 const imagePreview = document.getElementById('image-preview');
 
 fileUpload.addEventListener('change', (event) => {
-    const file = event.target.files[0];
-
-    if (file && file.type.startsWith('image/')) {
-        const reader = new FileReader();
-
-        reader.onload = function(e) {
-            attachedImage = e.target.result;
-            const imgElement = document.createElement('img');
-            imgElement.src = attachedImage;
-            imgElement.alt = 'Uploaded Image';
-            imgElement.style.maxWidth = '200px';
-            imagePreview.innerHTML = '';
-            imagePreview.appendChild(imgElement);
-        };
-
-        reader.readAsDataURL(file);
-    }
+    handleFileUpload(event, (image) => {
+        attachedImage = image;
+    }, imagePreview);
 });
 
 const textHeight = document.querySelector('.form-input');
-
-document.addEventListener('keydown', function(event) {
-    if (event.key === 'Enter' && !event.shiftKey) {
-        event.preventDefault();
-        form.dispatchEvent(new Event('submit'));
-    }
-});
-
-textHeight.addEventListener('input', function() {
-    this.style.height = 'auto';
-    const scrollHeight = this.scrollHeight;
-    if (scrollHeight <= 250) {
-        this.style.height = scrollHeight + 'px';
-    } else {
-        this.style.height = '250px';
-    }
-
-    const textareaHeight = this.offsetHeight;
-    const containerHeight = `calc(100vh - ${textareaHeight + 150}px)`;
-    messageContainer.style.height = containerHeight;
-});
-
+adjustTextHeight(textHeight, messageContainer);
 
 const chatElements = document.querySelectorAll('.chat-list');
 chatElements.forEach(chatElement => {
@@ -86,21 +53,7 @@ const lastMessageTimeElement = document.querySelector('.sidebar-message-time');
 const lastMessageTextElement = document.querySelector('.last-message');
 
 window.onload = () => {
-    const savedChatId = localStorage.getItem('activeChatId');
-    currentChatId = savedChatId || 'chat1';
-
-    chatItems.forEach(chatItem => {
-        const chatId = chatItem.getAttribute('data-chat-id');
-        if (chatId === currentChatId) {
-            chatItem.classList.add('active');
-        } else {
-            chatItem.classList.remove('active');
-        }
-    });
-
-    updateActiveChatUI(chatItems, currentChatId);
-    loadMessages();
-    updateSidebarChats(chatItems);
+    currentChatId = handleWindowLoad(chatItems, messageContainer, loadMessages, updateActiveChatUI, updateSidebarChats);
 };
 
 function loadMessages() {
@@ -130,48 +83,23 @@ function loadMessages() {
     });
 }
 
-form.addEventListener('submit', handleSubmit);
-
-function handleSubmit(event) {
-    if (input.value.trim() === "" && !attachedImage) {
-        event.preventDefault();
-    } else {
-        event.preventDefault();
-        let sender = 'я';
-        const date = new Date();
-        const options = { hour: '2-digit', minute: '2-digit' };
-        const timeStr = date.toLocaleTimeString([], options);
-
-        const message = {
-            text: input.value || null,
-            image: attachedImage || null,
-            imageName: fileUpload.files[0] ? fileUpload.files[0].name : null,
-            time: timeStr,
-            send: sender
-        };
-
-        saveMessage(currentChatId, message);
-        displayMessage(input.value, timeStr, sender, attachedImage);
-
-        if (message.imageName) {
-            lastMessageTextElement.textContent = message.imageName;
-        } else {
-            lastMessageTextElement.textContent = input.value;
-        }
-
-        imagePreview.innerHTML = '';
-        attachedImage = null;
-
-        input.style.height = '20px';
-        const textareaHeight = input.offsetHeight;
-        const containerHeight = `calc(100vh - ${textareaHeight + 150}px)`;
-        messageContainer.style.height = containerHeight;
-
-        lastMessageTimeElement.textContent = timeStr;
-        input.value = "";
-        updateSidebarChats(chatItems);
-    }
-}
+form.addEventListener('submit', (event) => {
+    handleSubmit(
+        event,
+        input,
+        attachedImage,
+        fileUpload,
+        messageContainer,
+        saveMessage,
+        displayMessage,
+        updateSidebarChats,
+        currentChatId,
+        lastMessageTextElement,
+        lastMessageTimeElement,
+        imagePreview,
+        chatItems
+    );
+});
 
 let currentChatId = 'chat1';
 
