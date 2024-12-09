@@ -31,4 +31,9 @@
 .icon-search {
     display: flex;
     align-items: center;
+    cursor: pointer;
+}
+
+.icon-search:active {
+    transform: scale(0.9);
 }

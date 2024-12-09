@@ -75,3 +75,11 @@
     margin-right: 10px;
     color: #aaaaaa;
 }
+
+.icon_setting_chat {
+    cursor: pointer;
+}
+
+.icon_setting_chat:active {
+    transform: scale(0.9);
+}
