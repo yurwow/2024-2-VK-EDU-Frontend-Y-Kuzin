@@ -103,3 +103,32 @@
     opacity: 0.7;
 }
 
+.mic_button {
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+.drag_overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 20px;
+    z-index: 1000;
+    pointer-events: none;
+}
+
+.drag_overlay p {
+    pointer-events: all;
+}
+
+.dragging {
+    background-color: rgba(0, 0, 0, 0.1);
+}

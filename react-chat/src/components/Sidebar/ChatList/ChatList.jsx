@@ -1,19 +1,22 @@
 import ChatListItem from "../ChatListItem/ChatListItem.jsx";
 import FloatingButton from "../../FloatingButton/FloatingButton.jsx";
 
-const ChatList = ({ chats, activeChat, onSelectChat, onCreateChat }) => {
+const ChatList = ({ chats, activeChat, onSelectChat, onCreateChat, handleCreateChat }) => {
     return (
         <>
-            {Object.keys(chats).map((chatId) => (
+            {chats.map((chat) => (
                 <ChatListItem
-                    key={chatId}
-                    chatId={chatId}
-                    messages={chats[chatId]}
-                    isActive={chatId === activeChat}
+                    key={chat.id}
+                    chatId={chat.id}
+                    title={chat.title}
+                    avatar={chat.avatar}
+                    lastMessage={chat.last_message}
+                    lastUpdated={chat.updated_at}
                     onSelectChat={onSelectChat}
+                    isActive={activeChat === chat.id}
                 />
             ))}
-            <FloatingButton onClick={onCreateChat}/>
+            <FloatingButton onClick={handleCreateChat} />
         </>
     );
 };
