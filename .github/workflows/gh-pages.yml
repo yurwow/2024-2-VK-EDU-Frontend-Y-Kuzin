@@ -1,5 +1,5 @@
 name: GitHub Pages
-run-name: ${{ github.actor }} is rolling out a new version of the app 🚀
+run-name: ${{ github.actor }} is rolling out a new version of the app dz4 🚀
 on: [push]
 jobs:
   Build-and-Deploy:
